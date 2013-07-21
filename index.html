@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>ConsoleDump by cameronism</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>ConsoleDump</h1>
+        <h2>Visualize your collections and objects in color at the console.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/cameronism/ConsoleDump/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/cameronism/ConsoleDump/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/cameronism/ConsoleDump" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p><code>Console.WriteLine(...)</code> 
+cannot begin to compare to <a href="http://www.linqpad.net/">LINQPad</a>'s <code>.Dump()</code> extension method.  This library
+provides a <code>.Dump()</code> extension method that can be used in console apps
+and in <a href="http://scriptcs.net/">scriptcs</a>.</p>
+
+<pre><code>Console.WriteLine(new[] { 1, 2, 3, 4 });
+// result
+System.Int32[]
+
+
+new[] { 1, 2, 3, 4 }.Dump();
+// result
+Int32[] (4 items)
+ 1
+ 2
+ 3
+ 4
+
+
+Console.WriteLine(IPAddress.Parse("1.1.1.1"));
+// result
+1.1.1.1
+
+
+IPAddress.Parse("1.1.1.1").Dump();
+// result
+System.Net.IPAddress
+ Address            16843009
+ AddressFamily      InterNetwork
+ ScopeId            The attempted operation is not supported for the type of object referenced
+ IsIPv6Multicast    False
+ IsIPv6LinkLocal    False
+ IsIPv6SiteLocal    False
+ IsIPv6Teredo       False
+ IsIPv4MappedToIPv6 False
+</code></pre>
+
+<p><code>myObj.Dump();</code> replaces the following:</p>
+
+<ul>
+<li><code>Console.WriteLine("{0} {1} {2}", myObj.Prop1, myObj.Prop2, myObj.Prop3);</code></li>
+<li><code>Console.WriteLine(JsonConvert.SerializeObject(myObj));</code></li>
+</ul><h2>
+<a name="disclaimer" class="anchor" href="#disclaimer"><span class="octicon octicon-link"></span></a>Disclaimer</h2>
+
+<p>This project is not affiliated with <a href="http://www.linqpad.net/">LINQPad</a> or its author <a href="http://www.albahari.com/">Joseph Albahari</a>.
+I've been completely spoiled by an amazing tool and I am trying to keep some of the convenience when working at the console.
+Download <a href="http://www.linqpad.net/">LINQPad</a>, it's free; <a href="http://www.linqpad.net/Purchase.aspx">activate autocompletion</a>, it's far
+and away the best .NET tool.</p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Improve this document</li>
+<li>Refine colors</li>
+<li>Publish NuGet package</li>
+<li>Truncate long strings</li>
+<li>Truncate or omit columns if <code>IEnumerable&lt;&gt;</code> view is too wide for screen</li>
+<li>Investigate <a href="http://scriptcs.net/">scriptcs REPL</a> integration</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Apache 2</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
