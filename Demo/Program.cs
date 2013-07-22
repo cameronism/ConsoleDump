@@ -12,6 +12,27 @@ namespace Demo
 {
 	class Program
 	{
+		public struct WhateverStruct
+		{
+			public readonly int Top;
+			public readonly int Right;
+			public readonly int Bottom;
+			public readonly int Left;
+
+			public WhateverStruct(int t, int r, int b, int l)
+			{
+				Top = t;
+				Right = r;
+				Bottom = b;
+				Left = l;
+			}
+
+			public override string ToString()
+			{
+				return String.Format("t: {0}, r: {1}, b: {2}, l = {3}", Top, Right, Bottom, Left);
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			Show("foo");
@@ -43,6 +64,8 @@ namespace Demo
 					n => Convert.ToString(-1 + (long)Math.Pow(2, n), 2)));
 
 			Show(new ArgumentException("my message", "someParam"));
+
+			Show(new WhateverStruct(1,2,3,4));
 		}
 
 		static int Count = 0;

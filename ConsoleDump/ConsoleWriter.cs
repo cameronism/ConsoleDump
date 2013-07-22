@@ -243,6 +243,19 @@ namespace ConsoleDump
 			WriteLabel(details.TypeLabel, padding);
 			WriteLine();
 
+			var stringified = instance.ToString();
+			if (!String.IsNullOrEmpty(stringified) && stringified != details.Type.FullName && stringified != instance.GetType().FullName)
+			{
+				WritePadding(padding);
+				Write(
+					stringified,
+					details.Type.IsClass ?
+						ConsoleColor.Magenta : // class
+						ConsoleColor.Yellow,  // struct
+					ConsoleColor.Black);
+				WriteLine();
+			}
+
 			padding++;
 			var values = details.GetMemberValues(instance);
 

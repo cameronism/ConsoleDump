@@ -56,11 +56,12 @@ Download [LINQPad](http://www.linqpad.net/), it's free; [activate autocompletion
 and away the best .NET tool.
 
 
+
 TODO
 -----
 
 - Improve this document
-- Add ToString() to output for object (not enumerable) view
+- Improve "count" wording on enumerable views
 - Refine colors
 - Publish NuGet package
 - Truncate long strings
