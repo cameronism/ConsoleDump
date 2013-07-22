@@ -13,7 +13,6 @@ namespace ConsoleDump
 		private static readonly ConsoleWriter _Writer = new ConsoleWriter();
 		public static T Dump<T>(this T it, string label = null)
 		{
-			Console.WriteLine(it);
 			return _Writer.Dump(it, label);
 		}
 	}

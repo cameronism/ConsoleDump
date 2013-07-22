@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using ConsoleDump;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Drawing.Imaging;
+using System.Threading;
 
 namespace Demo
 {
@@ -11,39 +14,76 @@ namespace Demo
 	{
 		static void Main(string[] args)
 		{
-			int? i = null;
-			object o = i;
+			Show("foo");
 
-			foreach (var label in new[] { "test", null })
+			Show(42);
+
+			Show(new
 			{
-				"foo".Dump(label);
+				Int32 = 1,
+				String = "sssstring",
+				NullObject = (object)null,
+				Boolean = true,
+				DateTime = DateTime.UtcNow,
+				SomeClass = Version.Parse("1.0"),
+				SomeStruct = new KeyValuePair<int, int>(1, 1),
+			});
 
-				o.Dump(label);
+			Show(new[] { 1, 22, 333, 4444 });
 
-				new { 
-					Int32 = 1, 
-					String = "sssstring",
-					NullObject = (object)null,
-					Boolean = true,
-					DateTime = DateTime.UtcNow,
-					SomeClass = Version.Parse("1.0"),
-					SomeStruct = new KeyValuePair<int, int>(1, 1),
-				}.Dump(label);
+			Show(IPAddress.Parse("1.1.1.1"));
 
-				new[] { 1, 2, 3, 4 }.Dump(label);
+			Show(Enumerable.Range(0, 100).ToList());
 
-				Enumerable.Range(0, 15).Dump(label);
+			Show(new[] { new { a = 1 }, null, new { a = 1 }, });
 
-				new[] { new { a = 1 }, null, new { a = 1 }, }.Dump(label);
 
-				IPAddress.Parse("1.1.1.1").Dump(label);
-
-				(new ArgumentException("my message", "someParam")).Dump(label);
-
-				Enumerable.Range(4, 8).ToDictionary(
+			Show(Enumerable.Range(4, 8).ToDictionary(
 					n => n,  
-					n => Convert.ToString(-1 + (long)Math.Pow(2, n), 2)).Dump(label);
-			}
+					n => Convert.ToString(-1 + (long)Math.Pow(2, n), 2)));
+
+			Show(new ArgumentException("my message", "someParam"));
 		}
+
+		static int Count = 0;
+		static void Show<T>(T it)
+		{
+			Console.WriteLine("// Example: " + (++Count));
+
+			Console.WriteLine();
+			Console.WriteLine("// Console.WriteLine");
+			Console.WriteLine(it);
+			TakeScreenShot("console", Count);
+
+			Console.WriteLine();
+			Console.WriteLine("// ServiceStack.Text.TypeSerializer.PrintDump");
+			try
+			{
+				ServiceStack.Text.TypeSerializer.PrintDump(it);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
+			TakeScreenShot("servicestack", Count);
+
+			Console.WriteLine();
+			Console.WriteLine("// ConsoleDump");
+			ConsoleDump.DumpExtensions.Dump(it);
+			TakeScreenShot("consoledump", Count);
+
+			ConsoleDump.DumpExtensions.Dump(it, "ConsoleDump label");
+		}
+
+		static void TakeScreenShot(string label, int example)
+		{
+			Thread.Sleep(1);
+			// crop the edges of my powershell window
+			var img = ScreenShotDemo.ScreenCapture.CaptureWindow(GetConsoleWindow(), 32, 10, 10, 27);
+			img.Save(String.Format("{0:d2}_{1}.png", example, label), ImageFormat.Png);
+		}
+
+		[DllImport("kernel32.dll")]
+		internal static extern IntPtr GetConsoleWindow();
 	}
 }

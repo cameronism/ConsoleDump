@@ -60,6 +60,7 @@ TODO
 -----
 
 - Improve this document
+- Add ToString() to output for object (not enumerable) view
 - Refine colors
 - Publish NuGet package
 - Truncate long strings
