@@ -20,7 +20,7 @@ IPAddress.Loopback.Dump(".Dump() output can be labeled.");
 Features
 ---------
 
-- Available via NuGet: `PM> Install-Package ConsoleDump` **TODO**
+- Available via NuGet: `PM> Install-Package ConsoleDump`
 - Single dll, depends only on .NET 4.0 Client Profile
 - Output colors based on type:
   * `null` is green
@@ -54,7 +54,6 @@ TODO
 - Improve this document
 - Improve "count" wording on enumerable views
 - Refine colors
-- Publish NuGet package
 - Truncate long strings
 - Truncate or omit columns if `IEnumerable<>` view is too wide for screen
 - Investigate [scriptcs REPL](http://scriptcs.net/) integration
