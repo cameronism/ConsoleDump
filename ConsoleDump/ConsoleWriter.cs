@@ -34,7 +34,7 @@ namespace ConsoleDump
 
 		const ushort ENUMERABLE_LIMIT = 24;
 		const ConsoleColor HEADING_FOREGROUND = ConsoleColor.White;
-		const ConsoleColor HEADING_BACKGROUND = ConsoleColor.DarkGray;
+		const ConsoleColor HEADING_BACKGROUND = ConsoleColor.DarkCyan;
 		#endregion
 
 		#region write helpers

@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace Demo
 {
-	class Program
+	public class Program
 	{
 		public struct WhateverStruct
 		{
@@ -66,6 +66,23 @@ namespace Demo
 			Show(new ArgumentException("my message", "someParam"));
 
 			Show(new WhateverStruct(1,2,3,4));
+
+			var bigExample = new[] { 200, 201, 202, 400, 404 }
+				.Select((c, i) => new
+				{
+					StringProp = ((HttpStatusCode)c).ToString(),
+					EnumProp = (HttpStatusCode)c,
+					NullableInt = i % 3 == 0 ? null : (int?)c,
+					BiggerInt = (int)Math.Pow(2, i * 4),
+					IPAddress = i % 3 == 2 ? null : IPAddress.Parse("1.1.1." + (i * 32)),
+				});
+			Show(bigExample);
+
+
+			ConsoleDump.DumpExtensions.Dump(bigExample);
+			ConsoleDump.DumpExtensions.Dump(IPAddress.Loopback, ".Dump() output can be labeled.");
+			TakeScreenShot("simple-ip", ++Count);
+
 		}
 
 		static int Count = 0;
