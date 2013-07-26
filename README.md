@@ -3,48 +3,39 @@ ConsoleDump
 
 **Visualize your collections and objects in color at the console.**
 
+![Example output](http://cameronism.github.io/ConsoleDump/images/consoledump-example.png)
+
 `Console.WriteLine(...)` 
 cannot begin to compare to [LINQPad](http://www.linqpad.net/)'s `.Dump()` extension method.  This library
 provides a `.Dump()` extension method that can be used in console apps
 and in [scriptcs](http://scriptcs.net/).
 
+The output above was created with the following code:
+```csharp
+new[] { 200, 201, 202, 400, 404 }.Select(CreateSillyExample).Dump();
 	
-	Console.WriteLine(new[] { 1, 2, 3, 4 });
-	// result
-	System.Int32[]
+IPAddress.Loopback.Dump(".Dump() output can be labeled.");
+```
+	
+Features
+---------
 
+- Available via NuGet: `PM> Install-Package ConsoleDump` **TODO**
+- Single dll, depends only on .NET 4.0 Client Profile
+- Output colors based on type:
+  * `null` is green
+  * Strings are cyan
+  * Primitives, enums and nullable primitives are white
+  * `.ToString()` from a class is purple
+  * `.ToString()` from a struct is yellow
+  * If a property throws an exception the exception is shown in red
+- Numbers are right aligned
+- `IEnumerable<>` support
+  * Displays count (if available)
+  * Safe for infinite `IEnumerable<>`
+  * Only the first 24 items are displayed
+- Much more concise and readable than JSON in the console
 
-	new[] { 1, 2, 3, 4 }.Dump();
-	// result
-	Int32[] (4 items)
-	 1
-	 2
-	 3
-	 4
-
-
-	Console.WriteLine(IPAddress.Parse("1.1.1.1"));
-	// result
-	1.1.1.1
-
-
-	IPAddress.Parse("1.1.1.1").Dump();
-	// result
-	System.Net.IPAddress
-	 Address            16843009
-	 AddressFamily      InterNetwork
-	 ScopeId            The attempted operation is not supported for the type of object referenced
-	 IsIPv6Multicast    False
-	 IsIPv6LinkLocal    False
-	 IsIPv6SiteLocal    False
-	 IsIPv6Teredo       False
-	 IsIPv4MappedToIPv6 False
-
-
-`myObj.Dump();` replaces the following:
-
-- `Console.WriteLine("{0} {1} {2}", myObj.Prop1, myObj.Prop2, myObj.Prop3);`
-- `Console.WriteLine(JsonConvert.SerializeObject(myObj));`
 
 
 Disclaimer
