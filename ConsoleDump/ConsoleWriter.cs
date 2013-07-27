@@ -79,16 +79,20 @@ namespace ConsoleDump
 
 		private void WriteEnumerableLabel(TypeDetails details, int shown, int? count, int padding)
 		{
-			string label = details.TypeLabel + " (";
+			string label;
 			if (shown < ENUMERABLE_LIMIT || count == ENUMERABLE_LIMIT)
 			{
-				label += shown + " items)";
+				label = " (" + shown + " items)";
+			}
+			else if (count.HasValue)
+			{
+				label = " (First " + shown + " items of " + count + ")";
 			}
 			else
 			{
-				label += shown + " items of " + (count.HasValue ? count.Value.ToString() : "?") + ")";
+				label = " (First " + shown + " items)";
 			}
-			WriteLabel(label, padding);
+			WriteLabel(details.TypeLabel + label, padding);
 			WriteLine();
 		}
 		#endregion

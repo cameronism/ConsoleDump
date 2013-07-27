@@ -33,6 +33,15 @@ namespace Demo
 			}
 		}
 
+		static IEnumerable<uint> Forever()
+		{
+			uint num = 0;
+			while (true)
+			{
+				yield return unchecked(num++);
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			Show("foo");
@@ -78,6 +87,9 @@ namespace Demo
 				});
 			Show(bigExample);
 
+			ConsoleDump.Extensions.Dump(Forever().Take(5).ToList(), "small list");
+			ConsoleDump.Extensions.Dump(Forever().Take(50).ToList(), "bigger list");
+			ConsoleDump.Extensions.Dump(Forever(), "infinite enumerable");
 
 			ConsoleDump.Extensions.Dump(bigExample);
 			ConsoleDump.Extensions.Dump(IPAddress.Loopback, ".Dump() output can be labeled.");
