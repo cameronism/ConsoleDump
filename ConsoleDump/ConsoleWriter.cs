@@ -315,7 +315,7 @@ namespace ConsoleDump
 			}
 			
 			var type = o.GetType();
-			if (type != typeof(T) && !type.IsPublic && typeof(T).IsPublic)
+			if (type != typeof(T) && typeof(T) != typeof(object) && !type.IsPublic && typeof(T).IsPublic)
 			{
 				type = typeof(T);
 			}

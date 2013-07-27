@@ -79,8 +79,8 @@ namespace Demo
 			Show(bigExample);
 
 
-			ConsoleDump.DumpExtensions.Dump(bigExample);
-			ConsoleDump.DumpExtensions.Dump(IPAddress.Loopback, ".Dump() output can be labeled.");
+			ConsoleDump.Extensions.Dump(bigExample);
+			ConsoleDump.Extensions.Dump(IPAddress.Loopback, ".Dump() output can be labeled.");
 			TakeScreenShot("simple-ip", ++Count);
 
 		}
@@ -109,10 +109,12 @@ namespace Demo
 
 			Console.WriteLine();
 			Console.WriteLine("// ConsoleDump");
-			ConsoleDump.DumpExtensions.Dump(it);
+			ConsoleDump.Extensions.Dump(it);
 			TakeScreenShot("consoledump", Count);
 
-			ConsoleDump.DumpExtensions.Dump(it, "ConsoleDump label");
+			ConsoleDump.Extensions.Dump(it, "ConsoleDump label");
+
+			ConsoleDump.Extensions.DumpObject(it, "as object");
 		}
 
 		static void TakeScreenShot(string label, int example)

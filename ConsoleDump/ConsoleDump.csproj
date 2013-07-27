@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="ColorString.cs" />
     <Compile Include="ConsoleWriter.cs" />
-    <Compile Include="DumpExtensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="MemberDetails.cs" />
     <Compile Include="MemberValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
