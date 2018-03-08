@@ -8,18 +8,38 @@ using System.Diagnostics;
 
 namespace ConsoleDump
 {
-	public static class Extensions
-	{
-		private static readonly ConsoleWriter _Writer = new ConsoleWriter();
-		public static T Dump<T>(this T it, string label = null)
-		{
-			return _Writer.Dump(it, label);
-		}
+    public static class Extensions
+    {
+        public static ushort? RowLimit { get; set; }
 
-		// Non generic version for easier calling from reflection, powershell, etc.
-		public static void DumpObject(object it, string label = null)
-		{
-			_Writer.Dump(it, label);
-		}
-	}
+        private static readonly ConsoleWriter _Writer = new ConsoleWriter();
+
+        public static T Dump<T>(this T it, string label = null)
+        {
+            return _Writer.Dump(it, label, GetEnumerableLimit());
+        }
+
+        // Non generic version for easier calling from reflection, powershell, etc.
+        public static void DumpObject(object it, string label = null)
+        {
+            _Writer.Dump(it, label, GetEnumerableLimit());
+        }
+
+        private static int GetEnumerableLimit()
+        {
+            if (RowLimit is ushort limit) return limit;
+
+            int height;
+            try
+            {
+                height = Console.WindowHeight;
+            }
+            catch (Exception)
+            {
+                return 24;
+            }
+
+            return Math.Max(height - 5, 16);
+        }
+    }
 }

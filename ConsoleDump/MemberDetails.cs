@@ -1,77 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace ConsoleDump
 {
-	internal class MemberDetails
-	{
-		public readonly TypeDetails TypeDetails;
-		public readonly FieldInfo FieldInfo;
-		public readonly PropertyInfo PropertyInfo;
-		public readonly string Name;
-		
-		private MemberDetails(FieldInfo fi)
-		{
-			FieldInfo = fi;
-			Name = fi.Name;
-			TypeDetails = TypeDetails.Get(fi.FieldType);
-		}
+    internal class MemberDetails
+    {
+        public readonly TypeDetails TypeDetails;
+        public readonly FieldInfo FieldInfo;
+        public readonly PropertyInfo PropertyInfo;
+        public readonly string Name;
 
-		private MemberDetails(PropertyInfo pi)
-		{
-			PropertyInfo = pi;
-			Name = pi.Name;
-			TypeDetails = TypeDetails.Get(pi.PropertyType);
-		}
+        private MemberDetails(FieldInfo fi)
+        {
+            FieldInfo = fi;
+            Name = fi.Name;
+            TypeDetails = TypeDetails.Get(fi.FieldType);
+        }
 
-		public MemberValue GetValue(object instance)
-		{
-			Exception exception = null;
-			object value;
+        private MemberDetails(PropertyInfo pi)
+        {
+            PropertyInfo = pi;
+            Name = pi.Name;
+            TypeDetails = TypeDetails.Get(pi.PropertyType);
+        }
 
-			if (FieldInfo != null)
-			{
-				value = FieldInfo.GetValue(instance);
-			}
-			else
-			{
-				try
-				{
-					value = PropertyInfo.GetValue(instance, null);
-				}
-				catch (TargetInvocationException tie)
-				{
-					value = null;
-					exception = tie.InnerException ?? tie;
-				}
-			}
+        protected MemberDetails(string name, TypeDetails details)
+        {
+            Name = name;
+            TypeDetails = details;
+        }
 
-			return new MemberValue(this, value, exception);
-		}
+        public virtual MemberValue GetValue(object instance)
+        {
+            Exception exception = null;
+            object value;
 
-		public static MemberDetails[] GetAllMembers(TypeDetails details)
-		{
-			var properties = details.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-			var fields = details.Type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+            if (FieldInfo != null)
+            {
+                value = FieldInfo.GetValue(instance);
+            }
+            else
+            {
+                try
+                {
+                    value = PropertyInfo.GetValue(instance, null);
+                }
+                catch (TargetInvocationException tie)
+                {
+                    value = null;
+                    exception = tie.InnerException ?? tie;
+                }
+            }
 
-			var members = properties
-				.Where(pi => pi.GetGetMethod() != null && pi.GetIndexParameters().Length == 0)
-				.Select(pi => new MemberDetails(pi));
+            return new MemberValue(this, value, exception);
+        }
 
-			members = members.Concat(
-				fields.Select(fi => new MemberDetails(fi))
-			);
+        public static MemberDetails[] GetAllMembers(TypeDetails details)
+        {
+            var properties = details.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            var fields = details.Type.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-			return members.ToArray();
-		}
+            var members = properties
+                .Where(pi => pi.GetGetMethod() != null && pi.GetIndexParameters().Length == 0)
+                .Select(pi => new MemberDetails(pi));
 
-		public override string ToString()
-		{
-			return ((object)PropertyInfo ?? FieldInfo).ToString();
-		}
-	}
+            members = members.Concat(
+                fields.Select(fi => new MemberDetails(fi))
+            );
+
+            return members.ToArray();
+        }
+
+        public override string ToString()
+        {
+            return ((object)PropertyInfo ?? FieldInfo).ToString();
+        }
+    }
 
 }
