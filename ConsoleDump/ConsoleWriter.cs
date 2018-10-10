@@ -15,10 +15,13 @@ namespace ConsoleDump
 
         protected virtual void Write(string s, ConsoleColor foreground, ConsoleColor background)
         {
+            ConsoleColor oldBackgroundColor = Console.BackgroundColor;
+            ConsoleColor oldForegroundColor = Console.ForegroundColor;
             Console.ForegroundColor = foreground;
             Console.BackgroundColor = background;
             Console.Write(s);
-            Console.ResetColor();
+            Console.BackgroundColor = oldBackgroundColor;
+            Console.ForegroundColor = oldForegroundColor;
         }
 
         protected virtual void WriteLine()
