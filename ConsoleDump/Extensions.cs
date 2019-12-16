@@ -10,24 +10,24 @@ namespace ConsoleDump
 {
     public static class Extensions
     {
-        public static ushort? RowLimit { get; set; }
+        public static int? RowLimit { get; set; }
 
         private static readonly ConsoleWriter _Writer = new ConsoleWriter();
 
-        public static T Dump<T>(this T it, string label = null)
+        public static T Dump<T>(this T it, string label = null, int? limit = null)
         {
-            return _Writer.Dump(it, label, GetEnumerableLimit());
+            return _Writer.Dump(it, label, limit ?? GetEnumerableLimit());
         }
 
         // Non generic version for easier calling from reflection, powershell, etc.
-        public static void DumpObject(object it, string label = null)
+        public static void DumpObject(object it, string label = null, int? limit = null)
         {
-            _Writer.Dump(it, label, GetEnumerableLimit());
+            _Writer.Dump(it, label, limit ?? GetEnumerableLimit());
         }
 
         private static int GetEnumerableLimit()
         {
-            if (RowLimit is ushort limit) return limit;
+            if (RowLimit is int limit) return limit;
 
             int height;
             try
